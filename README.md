@@ -12,7 +12,7 @@ pip install git+https://github.com/MatteoLacki/mmapuccino.git
 ## Usage:
 
 ```python
-memmaped_folder = Path("/tmp/test.tofu")
+memmaped_folder = Path("test.tofu")
 shutil.rmtree(memmaped_folder)
 memmaped_folder.mkdir()
 
@@ -25,6 +25,8 @@ some_output = foo(
 ```
 
 where function `foo` does some non-trivial allocations with `_empty` and `_zeros`.
+The operation above will create a folder `test.tofu` and fill it with all the usages of `_empty` and `_zeros`.
+
 By default, we provide wrappers around RAM allocators `np.empty` and `np.zeros` for defaults to functions like `foo`:
 
 ```python
@@ -37,3 +39,15 @@ def foo(..., _empty=empty, _zeros=zeros):
     yy = _zeros(name="yy", shape=(10**10, 3), dtype="uint32")
     ...
 ```
+
+The pattern is one folder per one function call.
+The user is responsible for finding nice names for the folders.
+
+To open an existing dataset
+
+```python
+mmappuccio = MmapedArrayValuedDict(existing_folder, mode="r")
+```
+
+WATCH OUT! 
+Not passing `mode="r"` results in data being overwritten.

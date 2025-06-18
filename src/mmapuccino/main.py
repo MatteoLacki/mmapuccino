@@ -1,4 +1,4 @@
-  """
+"""
 TODO: Make this into a separate module.
 TODO: Add tests.
 """
@@ -6,7 +6,7 @@ TODO: Add tests.
 
 import json
 import numpy as np
-import numpy,typing as npt
+import numpy.typing as npt
 import time
 
 from dictodot import DotDict
@@ -44,7 +44,7 @@ def zeros(name: str = "", *args, **kwargs) -> npt.NDArray:
     return np.zeros(*args, **kwargs)
 
 
-def to_int(shape: type|tuple[type,...]) -> int|tuple[int,...]:
+def to_int(shape: type | tuple[type, ...]) -> int | tuple[int, ...]:
     """
     Converts a shape to an integer or a tuple of integers.
 
@@ -59,7 +59,7 @@ def to_int(shape: type|tuple[type,...]) -> int|tuple[int,...]:
     """
     if isinstance(shape, np.integer):
         return int(shape)
-    if isinstance(shape, tuple)
+    if isinstance(shape, tuple):
         return tuple(map(int, shape))
 
 
@@ -136,6 +136,7 @@ class MmapedArrayValuedDict:
         folder (Path): The path to the folder containing .dat and .meta.json files.
         data (DotDict): A dictionary of loaded memory-mapped arrays.
     """
+
     def __init__(self, folder: str | Path, mode: str = "w+", *arg, **kwargs):
         """Initialize the MmapedArrayValuedDict and load all existing .dat arrays.
 
@@ -163,6 +164,7 @@ class MmapedArrayValuedDict:
         Returns:
             Callable: A function that creates and registers a new memory-mapped array.
         """
+
         def wrapper(name: str, *args, **kwargs) -> npt.NDArray:
             """
             Creates a new memory-mapped array and adds it to the internal dictionary.
@@ -225,4 +227,3 @@ class MmapedArrayValuedDict:
             if verbose:
                 print(f"Synced array `{col}` in `{flush_runtime[col]}` seconds.")
         return flush_runtime
-

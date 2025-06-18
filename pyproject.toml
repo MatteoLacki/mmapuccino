@@ -5,13 +5,14 @@ build-backend = "setuptools.build_meta"
 [project]
 name="mmapuccino"
 version="0.0.1"
-description="SHORT DESC."
+description="A simple wrapper around memmapped allocator that makes it simpler to exchange between RAM and disc allocation of numpy arrays."
 readme="README.md"
 authors=[
     {name="MatteoLacki",email="matteo.lacki@gmail.com"},
 ]
 dependencies = [
-    "click",
+    "numpy",
+    "dictodot @git+https://github.com/MatteoLacki/dictodot.git",
 ]
 requires-python = ">=3.6"
 

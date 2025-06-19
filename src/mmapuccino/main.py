@@ -14,12 +14,12 @@ from pathlib import Path
 from typing import Callable
 
 
-def empty(name: str = "", *args, **kwargs) -> npt.NDArray:
+def empty(name: str, *args, **kwargs) -> npt.NDArray:
     """
     Returns an uninitialized NumPy array with the specified shape and dtype.
 
     Parameters:
-        name (str): Unused parameter for compatibility or labeling (optional).
+        name (str): Unused parameter for compatibility or labeling (but you need to provide it).
         *args: Positional arguments to pass to np.empty.
         **kwargs: Keyword arguments to pass to np.empty.
 
@@ -29,12 +29,12 @@ def empty(name: str = "", *args, **kwargs) -> npt.NDArray:
     return np.empty(*args, **kwargs)
 
 
-def zeros(name: str = "", *args, **kwargs) -> npt.NDArray:
+def zeros(name: str, *args, **kwargs) -> npt.NDArray:
     """
     Returns a NumPy array filled with zeros with the specified shape and dtype.
 
     Parameters:
-        name (str): Unused parameter for compatibility or labeling (optional).
+        name (str): Unused parameter for compatibility or labeling (but you need to provide it).
         *args: Positional arguments to pass to np.zeros.
         **kwargs: Keyword arguments to pass to np.zeros.
 
@@ -67,7 +67,7 @@ def get_empty_mmapped_array(
     path: str | Path,
     shape: int | tuple[int, ...],
     mode: str = "w+",
-    dtype: str = "float32",
+    dtype: type | str = "float32",
     *args,
     **kwargs,
 ) -> npt.NDArray:
@@ -78,13 +78,15 @@ def get_empty_mmapped_array(
         path (str | Path): Path to the memory-mapped file.
         shape (int | tuple): Shape of the array.
         mode (str): File mode ('w+', 'r+', etc.).
-        dtype (str): Data type of the array (must be a string, e.g., 'float32').
+        dtype (str): Data type of the array.
         *args: Additional positional arguments to np.memmap.
         **kwargs: Additional keyword arguments to np.memmap.
 
     Returns:
         np.memmap: A memory-mapped NumPy array.
     """
+    if isinstance(dtype, type):
+        dtype = dtype.__name__
     assert isinstance(
         dtype, str
     ), "Use string dtypes, please. Like `uint32`, not `np.uint32`."
